@@ -65,69 +65,69 @@ app.get('/register', function(req, res) {
 	});
 });
 
-// app.get('/home', function(req, res) {
-// 	res.render('pages/home',{
-// 		my_title:'Home Page',
-// 		color: 'FF0000',
-// 		color_msg: 'The Color Red'
-// 	});
-// });
-
-
-
 app.get('/home', function(req, res) {
-	var query = 'select * from favorite_colors;';
-	db.any(query)
-        .then(function (rows) {
-            res.render('pages/home',{
-				my_title: "Home Page",
-				data: rows,
-				color: 'FF0000',
-				color_msg: 'The Color IS Red'
-			})
-
-        })
-        .catch(function (err) {
-            // display error message in case an error
-            CONSOLE.LOG('error', err); //if this doesn't work for you replace with console.log
-            res.render('pages/home', {
-                title: 'Home Page',
-                data: '10/25/2019',
-                color: 'FF0000',
-                color_msg: 'THE Color MESSAGE Red'
-            })
-        })
+	res.render('pages/home',{
+		my_title:'Home Page',
+		color: 'FF0000',
+		color_msg: 'The Color Red'
+	});
 });
-app.get('/home/pick_color', function(req, res) {
-	var color_choice = req.query.color_selection;
-	var color_options =  'select * from favorite_colors;';
-	var color_message = "select color_msg from favorite_colors where hex_value = '" + color_choice + "';";
-	db.task('get-everything', task => {
-        return task.batch([
-            task.any(color_options),
-            task.any(color_message)
-        ]);
-    })
-    .then(info => {
-    	res.render('pages/home',{
-				my_title: "Home Page",
-				data: info[0],
-				color: color_choice,
-				color_msg: info[1][0].color_msg
-			})
-    })
-    .catch(error => {
-        // display error message in case an error
-            req.flash('error', error);//if this doesn't work for you replace with console.log
-            res.render('pages/home', {
-                title: 'Home Page',
-                data: '',
-                color: '',
-                color_msg: ''
-            })
-    });
 
-});
+
+
+// app.get('/home', function(req, res) {
+// 	var query = 'select * from favorite_colors;';
+// 	db.any(query)
+//         .then(function (rows) {
+//             res.rendesr('pages/home',{
+// 				my_title: "Home Page",
+// 				data: rows,
+// 				color: 'FF0000',
+// 				color_msg: 'The Color IS Red'
+// 			})
+
+//         })
+//         .catch(function (err) {
+//             // display error message in case an error
+//             CONSOLE.LOG('error', err); //if this doesn't work for you replace with console.log
+//             res.render('pages/home', {
+//                 title: 'Home Page',
+//                 data: '10/25/2018',
+//                 color: 'FF0000',
+//                 color_msg: 'THE Color MESSAGE Red'
+//             })
+//         })
+// });
+// app.get('/home/pick_color', function(req, res) {
+// 	var color_choice = req.query.color_selection;
+// 	var color_options =  'select * from favorite_colors;';
+// 	var color_message = "select color_msg from favorite_colors where hex_value = '" + color_choice + "';";
+// 	db.task('get-everything', task => {
+//         return task.batch([
+//             task.any(color_options),
+//             task.any(color_message)
+//         ]);
+//     })
+//     .then(info => {
+//     	res.render('pages/home',{
+// 				my_title: "Home Page",
+// 				data: info[0],
+// 				color: color_choice,
+// 				color_msg: info[1][0].color_msg
+// 			})
+//     })
+//     .catch(error => {
+//         // display error message in case an error
+//             req.flash('error', error);//if this doesn't work for you replace with console.log
+//             res.render('pages/home', {
+//                 title: 'Home Page',
+//                 data: ''10/25/2019,
+//                 color: 'FF0000',
+//                 color_msg: 'The color is red.'
+//             })
+//     });
+
+// });
 
 
 app.post('/home/pick_color', function(req, res) {
@@ -157,12 +157,178 @@ app.post('/home/pick_color', function(req, res) {
             req.flash('error', error); //if this doesn't work for you replace with console.log
             res.render('pages/home', {
                 title: 'Home Page',
-                data: '',
-                color: '',
-                color_msg: ''
+                data: '10/25/2019',
+                color: 'FF0000',
+                color_msg: 'The color is red'
             })
     });
 });
+
+
+app.get('/route/to/take', function(req, res) {
+	var get_variable = req.query.parameter_name;
+	res.render('pages/web_page_name',{
+		text_variable:"000000000",
+		number_variable: 5,
+		parameter_variable: get_variable
+	});
+});
+
+
+
+
+
+
+app.get("/player_info", (req, res) => { 
+ var query = "select id, name from football_players;"; 
+ db.any(query) 
+ .then(info => { 
+ res.render("pages/player_info", { 
+ my_title: "Player Info", 
+ data: info 
+ }); 
+ }) 
+ .catch(err => { 
+ res.render("pages/player_info", { 
+ my_title: "Player Info" 
+ }); 
+ console.log(err); 
+ }); 
+ }); 
+   app.listen(3000); 
+ console.log("3000 is the magic port"); 
+
+ app.get('/team_stats', function(req, res) { 
+ var games = "select * from football_games where game_date>='2018-08-01' and game_date<'2019-01-01';"; 
+ var winning_games = 'select count(*) from football_games where home_score > visitor_score;'; 
+ var losing_games = 'select count(*) from football_games where visitor_score>home_score;'; 
+ db.task('get-everything', task => { 
+ return task.batch([ 
+ task.any(games), 
+ task.any(winning_games), 
+ task.any(losing_games) 
+ ]); 
+ }) 
+ .then(info => { 
+ res.render('pages/team_stats',{ 
+ my_title: "Team Stats", 
+ gameVar: info[0], 
+ winVar: info[1][0].count, 
+ loseVar: info[2][0].count 
+ }) 
+ }) 
+ .catch(error => { 
+ // display error message in case an error 
+ //request.flash('error', err); 
+ console.log(error); 
+ response.render('pages/team_stats', { 
+ title: 'Team Stats', 
+ winVar: '', 
+ loseVar: '' 
+ }) 
+ }); 
+   }); 
+
+
+
+  var query = 'SELECT * FROM team_stats;';
+db.any(query)
+    .then(function (rows) {
+        res.render('pages/page_name',{
+			my_title: "Colorado football team_stats",
+			data: rows,
+		})
+
+    })
+    .catch(function (err) {
+        // display error message in case an error
+        request.flash('error', err);
+        res.render('pages/page_name',{
+			my_title: "Colorado football team_stats",
+			data: '10/25/2019',
+		})
+	})
+
+
+var query1 = 'select * from team_stats;';
+var query2 = 'select * from team_stats_2;';
+var query3 = 'select * from team_stats_3;';
+db.task('get-everything', task => {
+    return task.batch([
+        task.any(query1),
+        task.any(query2),
+        task.any(query3)
+    ]);
+})
+.then(data => {
+	res.render('pages/page_name',{
+			my_title: "How about face to each team?",
+			result_1: data[0],
+			result_2: data[1],
+			result_3: data[2]
+		})
+})
+.catch(error => {
+    // display error message in case an error
+        request.flash('error', err);
+        res.render('pages/page_name',{
+			my_title: "Colorado team with another statics",
+			result_1: '',
+			result_2: '',
+			result_3: ''
+		})
+});
+
+
+
+  var query = 'SELECT * FROM player_info;';
+db.any(query)
+    .then(function (rows) {
+        res.render('pages/page_name',{
+			my_title: "Colorado football player information",
+			data: rows,
+		})
+
+    })
+    .catch(function (err) {
+        // display error message in case an error
+        request.flash('error', err);
+        res.render('pages/page_name',{
+			my_title: "Colorado football player information",
+			data: '10/25/2019',
+		})
+	})
+
+
+var query1 = 'select * from player_info;';
+var query2 = 'select * from player_info_2;';
+var query3 = 'select * from player_info_3;';
+db.task('get-everything', task => {
+    return task.batch([
+        task.any(query1),
+        task.any(query2),
+        task.any(query3)
+    ]);
+})
+.then(data => {
+	res.render('pages/page_name',{
+			my_title: "How about player?",
+			result_1: data[0],
+			result_2: data[1],
+			result_3: data[2]
+		})
+})
+.catch(error => {
+    // display error message in case an error
+        request.flash('error', err);
+        res.render('pages/page_name',{
+			my_title: "Colorado player information with another statics",
+			result_1: '',
+			result_2: '',
+			result_3: ''
+		})
+});
+
 
 
 /*Add your other get/post request handlers below here: */

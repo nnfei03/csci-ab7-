@@ -9,6 +9,27 @@ div.container
       div.card
         //- TODO: Modify the pug code below to conditionally set the image_src
         - let image_src = '../../resources/img/helmet.jpg'
+        if (result_2)
+           if(result_2.id == 1)
+             - image_src = '../../resources/img/player1.jpg'
+           else if(result_2.id == 2)
+             - image_src = '../../resources/img/player2.jpg'
+           else if(result_2.id == 3)
+             - image_src = '../../resources/img/player3.jpg'
+           else if(result_2.id == 4)
+             - image_src = '../../resources/img/player4.jpg'
+           else if(result_2.id == 5)
+             - image_src = '../../resources/img/player5.jpg'
+           else if(result_2.id == 6)
+             - image_src = '../../resources/img/player6.jpg'
+           else if(result_2.id == 7)
+             - image_src = '../../resources/img/player7.jpg'
+           else if(result_2.id == 8)
+             - image_src = '../../resources/img/player8.jpg'
+           else if(result_2.id == 9)
+             - image_src = '../../resources/img/player9.jpg'
+           else if(result_2.id == 10)
+             - image_src = '../../resources/img/player10.jpg'
 
         img.card-img-top#player_img(src= image_src, alt="Football Player")
         div.card-body.mx-auto
@@ -22,21 +43,61 @@ div.container
           //- TODO: Set the player's information. On select, fill in the player's information in each of the field below. You will need to calculate the average rushing, receiving, and passing yards.
           tr
             th Year
-            td ?
+            
+            td 1998
           tr
             th Major
-            td ?
+            td History
           tr
             th Games Played
-            td ?
+            td 9
           tr
             td Passing Yards:
-            td Avg. Passing Yards:
+            td Avg. Passing Yards: 10
           tr
             td Rushing Yards: 
-            td Avg. Rushing Yards:
+            td Avg. Rushing Yards: 9
           tr
             td Receiving Yards:
-            td Avg. Receiving Yards:
+            td Avg. Receiving Yards: 10
+
+  tr
+            th Year
+            td 2000
+          tr
+            th Major
+            td Finance
+          tr
+            th Games Played
+            td 11
+          tr
+            td Passing Yards:
+            td Avg. Passing Yards: 12
+          tr
+            td Rushing Yards: 
+            td Avg. Rushing Yards: 10
+          tr
+            td Receiving Yards:
+            td Avg. Receiving Yards: 10
+
+            tr
+            th Year
+            td 1999
+          tr
+            th Major
+            td Fiance
+          tr
+            th Games Played
+            td 11
+          tr
+            td Passing Yards:
+            td Avg. Passing Yards: 18
+          tr
+            td Rushing Yards: 
+            td Avg. Rushing Yards: 7
+          tr
+            td Receiving Yards:
+            td Avg. Receiving Yards: 10
+
 
 include ../partials/footer.pug
